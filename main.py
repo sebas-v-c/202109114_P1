@@ -18,6 +18,8 @@ class App(Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
 
 
 if __name__ == "__main__":

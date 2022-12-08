@@ -2,22 +2,89 @@
 
 from tkinter import *
 from tkinter import ttk
+from AFD.AFDOptions import create_afd, create_report, evaluate_string
+
+import controller
+import view
+import InitialWindow
+
+from AFDOptions import *
 
 
-class View(ttk.Frame):
+class View(view.View):
     def __init__(self, parent) -> None:
-        ttk.Frame.__init__(self, parent, padding="3 3 12 12")
+        super().__init__(parent)
+        parent.title("Módulo AFD")
 
-        self.grid(column=0, row=0, sticky="N E W S")
+        title_label = ttk.Label(self, text="Módulo AFD", font=("Arial Bold", 20))
+        title_label.grid(row=1, column=2)
 
-    def set_controller(self, controller):
-        self.controller = controller
+        # buttons
+        create_afd_button = ttk.Button(
+            self, text="Crear AFD", command=self.create_afd_button_pressed
+        ).grid(column=2, row=4)
+
+        evaluate_string_button = ttk.Button(
+            self, text="Evaluar Cadena", command=self.evaluate_string_button_pressed
+        ).grid(column=2, row=5)
+
+        create_report_button = ttk.Button(
+            self,
+            text="Generar Reporte AFD",
+            command=self.create_report_button_pressed,
+        ).grid(column=2, row=6)
+
+        help_button = ttk.Button(
+            self,
+            text="¡Ayudita!",
+            command=self.help_button_pressed,
+        ).grid(column=2, row=7)
+
+        return_button = ttk.Button(
+            self,
+            text="Regresar",
+            command=self.return_button_pressed,
+        ).grid(column=2, row=7)
+
+        self.add_padding()
+
+    # Buttons listeners
+    def create_afd_button_pressed(self):
+        if self.controller:
+            self.controller.create_afd()
+
+    def evaluate_string_button_pressed(self):
+        if self.controller:
+            self.controller.evaluate_string()
+
+    def create_report_button_pressed(self):
+        if self.controller:
+            self.controller.create_report()
+
+    def help_button_pressed(self):
+        if self.controller:
+            self.controller.help_button()
+
+    def return_button_pressed(self):
+        if self.controller:
+            self.controller.return_button()
 
 
-class Controller:
+class Controller(controller.Controller):
     def __init__(self, app) -> None:
-        self._app = app
-        self._view = View(app)
-        app.switch_frame(self._view)
+        super().__init__(app, View)
 
-        self._view.set_controller(self)
+    def create_afd(self):
+        controller = create_afd.Controller(self._app)
+
+    def evaluate_string(self):
+        controller = evaluate_string.Controller(self._app)
+
+    def create_report(self):
+        controller = create_report.Controller(self._app)
+
+    def help_button(self):
+        controller = help.Controller(self._app)
+
+    def return_button(self):
+        controller = InitialWindow.Controller(self._app)

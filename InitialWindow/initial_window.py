@@ -2,14 +2,16 @@
 
 from tkinter import *
 from tkinter import ttk
+import controller
+import view
+import AFD
+import GR
+import LoadFiles
 
 
-class View(ttk.Frame):
+class View(view.View):
     def __init__(self, parent) -> None:
-        ttk.Frame.__init__(self, parent, padding="3 3 12 12")
-
-        self.grid(column=0, row=0, sticky="N E W S")
-
+        super().__init__(parent)
         # create widgets
 
         # Label
@@ -30,9 +32,6 @@ class View(ttk.Frame):
         title_label = ttk.Label(self, text="PROYECTO 1 LFP", font=("Arial Bold", 30))
         title_label.grid(row=4, column=2)
 
-        for child in self.winfo_children():
-            child.grid_configure(padx=7, pady=7)
-
         afd_button = ttk.Button(self, text="AFD", command=self.afd_button_pressed).grid(
             column=2, row=5
         )
@@ -48,13 +47,9 @@ class View(ttk.Frame):
         quit_button = ttk.Button(
             self, text="Salir", command=self.quit_button_pressed
         ).grid(column=2, row=8)
-        controller = None
 
         for child in self.winfo_children():
             child.grid_configure(padx=7, pady=7)
-
-    def set_controller(self, controller):
-        self.controller = controller
 
     def afd_button_pressed(self):
         if self.controller:
@@ -73,19 +68,15 @@ class View(ttk.Frame):
             self.controller.quit_program()
 
 
-class Controller:
+class Controller(controller.Controller):
     def __init__(self, app) -> None:
-        self._app = app
-        self._view = View(app)
-        app.switch_frame(self._view)
-
-        self._view.set_controller(self)
+        super().__init__(app, View)
 
     def afd_module(self):
-        pass
+        controller = AFD.Controller(self._app)
 
     def gr_module(self):
-        pass
+        controller = GR.Controller(self._app)
 
     def load_files_module(self):
         pass
