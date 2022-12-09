@@ -44,7 +44,7 @@ class View(view.View):
             self,
             text="Regresar",
             command=self.return_button_pressed,
-        ).grid(column=2, row=7)
+        ).grid(column=2, row=8)
 
         self.add_padding()
 
@@ -84,7 +84,7 @@ class Controller(controller.Controller):
         controller = create_report.Controller(self._app)
 
     def help_button(self):
-        controller = help.Controller(self._app)
+        controller = help_window.Controller(self._app)
 
     def return_button(self):
         controller = InitialWindow.Controller(self._app)
