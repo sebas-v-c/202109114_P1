@@ -8,7 +8,7 @@ import controller
 import view
 import InitialWindow
 
-from AFDOptions import *
+from AFD.AFDOptions import *
 
 
 class View(view.View):
