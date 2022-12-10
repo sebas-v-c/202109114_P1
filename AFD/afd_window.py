@@ -2,13 +2,11 @@
 
 from tkinter import *
 from tkinter import ttk
-from AFD.AFDOptions import create_afd, create_report, evaluate_string
+from AFD.AFDOptions import create_afd, create_report, evaluate_string, help_info
 
 import controller
 import view
 import InitialWindow
-
-from AFD.AFDOptions import *
 
 
 class View(view.View):
@@ -84,7 +82,7 @@ class Controller(controller.Controller):
         controller = create_report.Controller(self._app)
 
     def help_button(self):
-        controller = help_window.Controller(self._app)
+        controller = help_info.Controller(self._app)
 
     def return_button(self):
         controller = InitialWindow.Controller(self._app)
