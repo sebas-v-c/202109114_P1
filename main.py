@@ -13,6 +13,10 @@ class App(Tk):
         self.rowconfigure(0, weight=1)
         self.title("Proyecto 1 LFP")
 
+        # App variables
+        self.afd_objects = []
+        self.gr_objects = []
+
     def switch_frame(self, frame_class):
         new_frame = frame_class
         if self._frame is not None:
