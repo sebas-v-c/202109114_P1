@@ -20,29 +20,29 @@ class View(view.View):
         # buttons
         create_afd_button = ttk.Button(
             self, text="Crear AFD", command=self.create_afd_button_pressed
-        ).grid(column=2, row=4)
+        ).grid(column=2, row=4, sticky="ew")
 
         evaluate_string_button = ttk.Button(
             self, text="Evaluar Cadena", command=self.evaluate_string_button_pressed
-        ).grid(column=2, row=5)
+        ).grid(column=2, row=5, sticky="ew")
 
         create_report_button = ttk.Button(
             self,
             text="Generar Reporte AFD",
             command=self.create_report_button_pressed,
-        ).grid(column=2, row=6)
+        ).grid(column=2, row=6, sticky="ew")
 
         help_button = ttk.Button(
             self,
             text="¡Ayudita!",
             command=self.help_button_pressed,
-        ).grid(column=2, row=7)
+        ).grid(column=2, row=7, sticky="ew")
 
         return_button = ttk.Button(
             self,
             text="Regresar",
             command=self.return_button_pressed,
-        ).grid(column=2, row=8)
+        ).grid(column=2, row=8, sticky="ew")
 
         self.add_padding()
 

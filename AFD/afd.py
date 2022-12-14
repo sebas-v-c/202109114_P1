@@ -13,6 +13,8 @@ class AFD:
         self._initial_state = None
         self._acceptance_states = None
         self._transitions = None
+        if name == "":
+            raise NameException("Name is empty")
 
     @property
     def states(self):
@@ -21,7 +23,7 @@ class AFD:
     @states.setter
     def states(self, value: str):
         new_states: list[str] = value.split(separator)
-        if len(new_states) == 0:
+        if len(new_states) == 0 or value == "":
             raise StatesException("The states property is Empty")
         self._states: list[str] = new_states
 
@@ -79,6 +81,7 @@ class AFD:
     @transitions.setter
     def transitions(self, value: str):
         new_transitions = value.split("\n")
+        new_transitions = filter(lambda x: not x == "", new_transitions)
         new_transitions_list = []
         try:
             for transition in new_transitions:
@@ -96,7 +99,9 @@ class AFD:
                     )
                 )
         except:
-            raise TransitionsException("Transition syntax is not formatted correctly")
+            raise TransitionsSyntaxException(
+                "Transition syntax is not formatted correctly"
+            )
 
         # TODO verify if this thing really is an afd
         self._transitions = new_transitions_list
@@ -118,6 +123,10 @@ class Transition:
 # Exception classes for error handling
 
 
+class NameException(Exception):
+    pass
+
+
 class StatesException(Exception):
     pass
 
@@ -134,5 +143,9 @@ class AcceptanceStatesException(Exception):
     pass
 
 
-class TransitionsException(Exception):
+class TransitionsSyntaxException(Exception):
+    pass
+
+
+class TransitionException(Exception):
     pass

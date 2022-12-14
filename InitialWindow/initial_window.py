@@ -34,20 +34,20 @@ class View(view.View):
         title_label.grid(row=4, column=2)
 
         afd_button = ttk.Button(self, text="AFD", command=self.afd_button_pressed).grid(
-            column=2, row=5
+            column=2, row=5, sticky="ew"
         )
 
         gr_button = ttk.Button(self, text="GR", command=self.gr_button_pressed).grid(
-            column=2, row=6
+            column=2, row=6, sticky="ew"
         )
 
         load_files_button = ttk.Button(
             self, text="Carga de Archivos", command=self.load_files_button_pressed
-        ).grid(column=2, row=7)
+        ).grid(column=2, row=7, sticky="ew")
 
         quit_button = ttk.Button(
             self, text="Salir", command=self.quit_button_pressed
-        ).grid(column=2, row=8)
+        ).grid(column=2, row=8, sticky="ew")
 
         for child in self.winfo_children():
             child.grid_configure(padx=7, pady=7)
