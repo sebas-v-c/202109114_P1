@@ -22,23 +22,23 @@ class View(view.View):
         # buttons
         create_afd_button = ttk.Button(
             self, text="Crear GR", command=self.create_afd_button_pressed
-        ).grid(column=2, row=4)
+        ).grid(column=2, row=4, sticky="WE")
 
         evaluate_string_button = ttk.Button(
             self, text="Evaluar Cadena", command=self.evaluate_string_button_pressed
-        ).grid(column=2, row=5)
+        ).grid(column=2, row=5, sticky="WE")
 
         create_report_button = ttk.Button(
             self,
             text="Generar Reporte GR",
             command=self.create_report_button_pressed,
-        ).grid(column=2, row=6)
+        ).grid(column=2, row=6, sticky="WE")
 
         help_button = ttk.Button(
             self,
             text="¡Ayudita!",
             command=self.help_button_pressed,
-        ).grid(column=2, row=7)
+        ).grid(column=2, row=7, sticky="WE")
 
         return_button = ttk.Button(
             self,

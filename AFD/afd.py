@@ -5,6 +5,16 @@ separator = ";"
 MINIMUM_STRING_LENGHT = 1
 
 
+class Transition:
+    def __init__(self, origin, entry, destination) -> None:
+        self.origin = origin
+        self.entry = entry
+        self.destination = destination
+
+    def __str__(self) -> str:
+        return f"({self.origin}, {self.entry}; {self.destination})"
+
+
 class AFD:
     def __init__(self, name: str) -> None:
         self.name = name
@@ -25,6 +35,11 @@ class AFD:
         new_states: list[str] = value.split(separator)
         if len(new_states) == 0 or value == "":
             raise StatesException("The states property is Empty")
+
+        # there are duplicates
+        if not len(new_states) == len(set(new_states)):
+            raise StatesException("There is duplicates")
+
         self._states: list[str] = new_states
 
     @property
@@ -132,7 +147,7 @@ class AFD:
 
         return "".join(string_list)
 
-    def evaluate_string(self, string: str) -> list:
+    def evaluate_string(self, string: str) -> list[Transition]:
         transitions: list[Transition] = []
         state = self.initial_state
         # current_state = self.initial_state
@@ -176,16 +191,6 @@ class AFD:
 
     def __str__(self):
         return f"Name: {self.name}\nStates: {self._states}\nAlfabet: {self._alfabet}\nInitial State: {self._initial_state}\nAcceptance States: {self._acceptance_states}"
-
-
-class Transition:
-    def __init__(self, origin, entry, destination) -> None:
-        self.origin = origin
-        self.entry = entry
-        self.destination = destination
-
-    def __str__(self) -> str:
-        return f"({self.origin}, {self.entry}; {self.destination})"
 
 
 # Exception classes for error handling

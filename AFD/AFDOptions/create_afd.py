@@ -183,7 +183,9 @@ class Controller:
         except NameExistException:
             self._view.afd_name_error.set("El nombre ya existe en el sistema")
         except StatesException:
-            self._view.afd_states_error.set("Los estados estań vacios")
+            self._view.afd_states_error.set(
+                "Los estados estań vacios'=\nO están duplicados"
+            )
         except AlfabetException:
             self._view.afd_alfabet_error.set(
                 "Hay duplicados o elementos\nson parte de los estados"

@@ -4,11 +4,16 @@
 from tkinter import *
 from tkinter import ttk
 from AFD.afd import InvalidStringException
+import Graphviz
 
 import controller
 import view
 
 import AFD
+import os
+
+DOT_FILE_NAME = ".input_route.out"
+PDF_FILE_NAME = "output_route.pdf"
 
 
 class View(ttk.Frame):
@@ -60,6 +65,18 @@ class View(ttk.Frame):
             textvariable=self.validate_afd,
         )
         self.validate_afd_label.grid(row=7, column=1, columnspan=3)
+
+        # -----------------------------------label for graphviz-------------------------------#
+        self.generate_graphviz = StringVar()
+        self.generate_graphviz.trace_add("write", self.on_write_changed)
+        self.generate_graphviz_label = ttk.Label(
+            self,
+            text="",
+            foreground="red",
+            font=("Arial Bold", 10),
+            textvariable=self.generate_graphviz,
+        )
+        self.generate_graphviz_label.grid(row=7, column=2)
 
         # -----------------------------------full route button-------------------------------#
         self.full_route_button = ttk.Button(
@@ -122,8 +139,83 @@ class Controller:
         )
 
     def validate_route(self):
-        # TODO
-        pass
+        afd_name = self._view.afd_combobox.get()
+        afd_object: AFD.AFD
+        for afd in self._app.afd_objects:
+            if afd.name == afd_name:
+                afd_object = afd
+                break
+
+        if not afd_object:
+            return
+
+        string = self._view.afd_string.get()
+
+        try:
+            steps = afd_object.evaluate_string(string)
+        except InvalidStringException:
+            self._view.validate_afd_label.config(foreground="red")
+            self._view.validate_afd.set("La Cadena Introducida No Es Válida")
+        else:
+            self._generate_route(steps, string)
+            self._view.validate_afd_label.config(foreground="green")
+            self._view.validate_afd.set("La Cadena Introducida Sí Es Válida")
+            self.return_button()
+
+    def _generate_route(self, steps: list, string: str):
+        afd_name = self._view.afd_combobox.get()
+        afd_object: AFD.AFD
+        for afd in self._app.afd_objects:
+            if afd.name == afd_name:
+                afd_object = afd
+                break
+
+        if not afd_object:
+            return
+
+        # generate diagraph and description
+        try:
+            diagraph: str = "digraph G {\n" + Graphviz.create_route_diagraph(
+                afd_object, steps
+            )
+            description: str = (
+                "\n"
+                + Graphviz.create_route_description(afd_object, steps, string)
+                + "\n}"
+            )
+        except:
+            self._view.generate_graphviz.set(
+                "Ha ocurrido un error al generar el archivo .dot"
+            )
+            return
+
+        cwd = os.getcwd()
+
+        try:
+            os.remove(cwd + "/" + DOT_FILE_NAME)
+        except:
+            pass
+
+        with open(DOT_FILE_NAME, mode="w") as f:
+            f.write(diagraph + description)
+
+        try:
+            os.system("dot -Tpdf " + DOT_FILE_NAME + " > " + PDF_FILE_NAME)
+        except:
+            self._view.generate_graphviz.set(
+                "Ha ocurrido un error al generar el archivo pdf"
+            )
+
+        try:
+            os.system("zathura " + cwd + "/" + PDF_FILE_NAME)
+        except:
+            self._view.generate_graphviz.set(
+                "Ha ocurrido un error al abrir el archivo pdf"
+            )
+        else:
+            self._view.generate_graphviz.set(
+                "Ha ocurrido un error al abrir el archivo pdf"
+            )
 
     def validate_only(self):
         afd_name = self._view.afd_combobox.get()
