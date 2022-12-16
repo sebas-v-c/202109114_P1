@@ -1,35 +1,36 @@
 digraph G {
 rankdir=LR;
-0;1;2;3;4;5;6;7;
-7 [peripheries=2];
+0;1;2;3;4;5;6;7;8;
+9 [peripheries=2];
 INICIO [shape="triangle"]
 INICIO -> 0;
 0 -> 1 [label="0"];
-1 -> 2 [label="1"];
-2 -> 3 [label="1"];
+1 -> 2 [label="0"];
+2 -> 3 [label="0"];
 3 -> 4 [label="0"];
-4 -> 5 [label="1"];
-5 -> 6 [label="1"];
+4 -> 5 [label="0"];
+5 -> 6 [label="0"];
 6 -> 7 [label="0"];
-7 -> 8 [label="1"];
+7 -> 8 [label="0"];
+8 -> 9 [label="1"];
 node [shape=circle];
 fontsize=40
 NodeLabel [shape=none fontsize=18 label = <
-Nombre: AFD_1<br/>
-Estados: A B<br align="left"/>
-Alfabeto: 0 1<br align="left"/>
-Estados de aceptación: B<br align="left"/>
+Nombre: gr3<br/>
+No Terminales: A B<br align="left"/>
+Terminales: 0 1<br align="left"/>
 Estado inicial: A<br align="left"/>
-Transiciones Realizadas: <br align="left"/>
-1. A, 0; A<br align="left"/>
-2. A, 1; B<br align="left"/>
-3. B, 1; A<br align="left"/>
-4. A, 0; A<br align="left"/>
-5. A, 1; B<br align="left"/>
-6. B, 1; A<br align="left"/>
-7. A, 0; A<br align="left"/>
-8. A, 1; B<br align="left"/>
+Producciones: <br align="left"/>
+1. A &gt; 0  A<br align="left"/>
+2. A &gt; 0  A<br align="left"/>
+3. A &gt; 0  A<br align="left"/>
+4. A &gt; 0  A<br align="left"/>
+5. A &gt; 0  A<br align="left"/>
+6. A &gt; 0  A<br align="left"/>
+7. A &gt; 0  A<br align="left"/>
+8. A &gt; 0  A<br align="left"/>
+9. A &gt; 1  B<br align="left"/>
  <br align="left"/>
-Cadena ingresada: 01101101<br align="left"/>
+Cadena ingresada: 000000001<br align="left"/>
 >];
 }

@@ -10,7 +10,7 @@ class Transition:
         self.destination = destination
 
     def __str__(self) -> str:
-        return f"({self.origin}, {self.entry}; {self.destination})"
+        return f"{self.origin} &gt; {self.entry}  {self.destination}"
 
 
 class GR:
