@@ -25,10 +25,16 @@ class View(ttk.Frame):
         info_label.grid(row=2, column=1, columnspan=2)
 
         # -----------------------------------Image-------------------------------#
-        imgobj = PhotoImage(file=afd_example)
-        image_label = ttk.Label(self, image=imgobj)
 
-        image_label.grid(row=3, column=2)
+        canvas = Canvas(
+            self,
+            width=472,
+            height=363,
+        )
+        canvas.grid(row=3, column=2)
+        imgobj = PhotoImage(file="./Res/afd_help.png")
+        self.imgObj = imgobj
+        canvas.create_image(20, 20, anchor="nw", image=imgobj)
 
         # -----------------------------------return button-------------------------------#
         return_button = ttk.Button(
@@ -57,7 +63,6 @@ class Controller:
         self._view = View(app, self._app.AFD_EXAMPLE_IMAGE)
         app.switch_frame(self._view)
 
-        print(self._app.AFD_EXAMPLE_IMAGE)
         self._view.set_controller(self)
 
     def return_button(self):
