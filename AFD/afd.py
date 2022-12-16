@@ -2,7 +2,7 @@
 
 separator = ";"
 
-# TODO create exceptions for this code
+MINIMUM_STRING_LENGHT = 1
 
 
 class AFD:
@@ -106,6 +106,32 @@ class AFD:
         # TODO verify if this thing really is an afd
         self._transitions = new_transitions_list
 
+    @property
+    def valid_string(self) -> str:
+        string_list: list[str] = []
+        state = self.initial_state
+        temp_transition_list = self.transitions.copy()
+
+        while True:
+            available_transition: list[Transition] = list(
+                filter(
+                    lambda transition: transition.origin == state, temp_transition_list
+                )
+            )
+
+            # remove one transition from the list
+            temp_transition_list.remove(available_transition[0])
+            # add transition entry to string list
+            string_list.append(available_transition[0].entry)
+            # change state to the next transition
+            state = available_transition[0].destination
+
+            # if the next state is an acceptance state break from the loop
+            if state in self.acceptance_states:
+                break
+
+        return "".join(string_list)
+
     def evaluate_string(self, string: str) -> list:
         transitions: list[Transition] = []
         state = self.initial_state
@@ -113,9 +139,9 @@ class AFD:
         string_list = list(string)
         in_acceptance_state = False
 
-        for i in range(len(string_list)):
+        for char in string_list:
             # if character is not in alfabet
-            if string_list[i] not in self.alfabet:
+            if char not in self.alfabet:
                 raise InvalidStringException(
                     "The character doesn't belong to the alfabet"
                 )
@@ -127,7 +153,7 @@ class AFD:
             # given the available transitions, get the correct one
             correct_transition: list[Transition] = list(
                 filter(
-                    lambda transition: transition.entry == string_list[i],
+                    lambda transition: transition.entry == char,
                     available_transitions,
                 )
             )

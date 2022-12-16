@@ -1,0 +1,27 @@
+digraph G {
+rankdir=LR;
+A;B;
+B [peripheries=2];
+INICIO [shape="triangle"]
+INICIO -> A;
+A -> A [label="0"];
+A -> B [label="1"];
+B -> B [label="0"];
+B -> A [label="1"];
+node [shape=circle];
+fontsize=40
+NodeLabel [shape=none fontsize=18 label = <
+Nombre: afddddd<br/>
+Estados: A B<br align="left"/>
+Alfabeto: 0 1<br align="left"/>
+Estados de aceptación: B<br align="left"/>
+Estado inicialA<br align="left"/>
+Transiciones <br align="left"/>
+A, 0; A<br align="left"/>
+A, 1; B<br align="left"/>
+B, 0; B<br align="left"/>
+B, 1; A<br align="left"/>
+ <br align="left"/>
+Cadena válida de ejemplo: 01<br align="left"/>
+>];
+}

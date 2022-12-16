@@ -154,7 +154,6 @@ class Controller:
         self._view.full_route_button.state(["!disabled"])
 
     def on_entry_changed(self):
-        print("hola")
         self._view.validate_afd.set("")
 
     def return_button(self):

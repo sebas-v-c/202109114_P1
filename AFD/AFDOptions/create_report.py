@@ -7,7 +7,7 @@ import os
 
 import controller
 import view
-import AFD.graphviz as Graphviz
+import Graphviz
 
 import AFD
 
@@ -43,12 +43,24 @@ class View(ttk.Frame):
         self.create_button.state(["disabled"])
         self.create_button.grid(row=3, column=2, sticky="WE")
 
+        # -----------------------------------validate label-------------------------------#
+        self.generate_report = StringVar()
+        self.generate_report.trace_add("write", self.on_write_changed)
+        self.generate_report_label = ttk.Label(
+            self,
+            text="",
+            foreground="red",
+            font=("Arial Bold", 10),
+            textvariable=self.generate_report,
+        )
+        self.generate_report_label.grid(row=7, column=2)
+
         # -----------------------------------return button-------------------------------#
         return_button = ttk.Button(
             self,
             text="Regresar",
             command=self.return_button_pressed,
-        ).grid(column=2, row=7)
+        ).grid(column=2, row=5)
 
         self.add_padding()
 
@@ -60,6 +72,10 @@ class View(ttk.Frame):
         self._afd_combobox.selection_clear()
         if self.controller:
             self.controller.combobox_selected()
+
+    def on_write_changed(self, *args):
+        if self.controller:
+            self.controller.on_entry_changed()
 
     def define_combobox_values(self, values: list):
         self._afd_combobox["values"] = values
@@ -76,7 +92,7 @@ class View(ttk.Frame):
             child.grid_configure(padx=x_size, pady=y_size)
 
 
-class Controller(controller.Controller):
+class Controller:
     def __init__(self, app) -> None:
         self._app = app
         self._view = View(app)
@@ -90,7 +106,7 @@ class Controller(controller.Controller):
         )
 
     def generate_report(self):
-        self._view.afd_combobox.get()
+        afd_name = self._view.afd_combobox.get()
         afd_object: AFD.AFD
         for afd in self._app.afd_objects:
             if afd.name == afd_name:
@@ -100,18 +116,49 @@ class Controller(controller.Controller):
         if not afd_object:
             return
 
-        diagraph: str = "digraph G {\n" + Graphviz.create_diagraph()
-        description: str = Graphviz.create_description() + "\n}"
-
-        if os.path.exists(DOT_FILE_NAME):
-            os.remove(DOT_FILE_NAME)
+        # generate diagraph and description
+        try:
+            diagraph: str = "digraph G {\n" + Graphviz.create_diagraph(afd_object)
+            description: str = "\n" + Graphviz.create_description(afd_object) + "\n}"
+        except:
+            self._view.generate_report.set(
+                "Ha ocurrido un error al generar el archivo .dot"
+            )
+            return
 
         cwd = os.getcwd()
+
+        try:
+            os.remove(cwd + "/" + DOT_FILE_NAME)
+        except:
+            pass
+
         with open(DOT_FILE_NAME, mode="w") as f:
             f.write(diagraph + description)
 
+        try:
+            os.system("dot -Tpdf " + DOT_FILE_NAME + " > " + PDF_FILE_NAME)
+        except:
+            self._view.generate_report.set(
+                "Ha ocurrido un error al generar el archivo pdf"
+            )
+
+        try:
+            os.system("zathura " + cwd + "/" + PDF_FILE_NAME)
+        except:
+            self._view.generate_report.set(
+                "Ha ocurrido un error al abrir el archivo pdf"
+            )
+        else:
+            self._view.generate_report.set(
+                "Ha ocurrido un error al abrir el archivo pdf"
+            )
+
     def combobox_selected(self):
-        self._view.afd_combobox.get()
+        self._view.create_button.state(["!disabled"])
+
+    def on_entry_changed(self):
+        self._view.generate_report.set("")
 
     def return_button(self):
         controller = AFD.Controller(self._app)
