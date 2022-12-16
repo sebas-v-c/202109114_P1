@@ -9,10 +9,10 @@ class AFD:
     def __init__(self, name: str) -> None:
         self.name = name
         self._states: list[str] = []
-        self._alfabet = None
-        self._initial_state = None
-        self._acceptance_states = None
-        self._transitions = None
+        self._alfabet: list[str] = []
+        self._initial_state: str = ""
+        self._acceptance_states: list[str] = []
+        self._transitions: list[Transition]
         if name == "":
             raise NameException("Name is empty")
 
@@ -72,7 +72,7 @@ class AFD:
                 raise AcceptanceStatesException(
                     "Acceptance state item is not declared in states property"
                 )
-        self._initial_state = new_acceptance_states
+        self._acceptance_states = new_acceptance_states
 
     @property
     def transitions(self):
@@ -106,6 +106,48 @@ class AFD:
         # TODO verify if this thing really is an afd
         self._transitions = new_transitions_list
 
+    def evaluate_string(self, string: str) -> list:
+        transitions: list[Transition] = []
+        state = self.initial_state
+        # current_state = self.initial_state
+        string_list = list(string)
+        in_acceptance_state = False
+
+        for i in range(len(string_list)):
+            # if character is not in alfabet
+            if string_list[i] not in self.alfabet:
+                raise InvalidStringException(
+                    "The character doesn't belong to the alfabet"
+                )
+            # given the current state get available transitions
+            available_transitions: list[Transition] = list(
+                filter(lambda transition: transition.origin == state, self.transitions)
+            )
+
+            # given the available transitions, get the correct one
+            correct_transition: list[Transition] = list(
+                filter(
+                    lambda transition: transition.entry == string_list[i],
+                    available_transitions,
+                )
+            )
+
+            if len(correct_transition) == 0:
+                raise InvalidStringException("There is no transition with this letter")
+
+            state = correct_transition[0].destination
+            transitions.append(correct_transition[0])
+
+            if state in self._acceptance_states:
+                in_acceptance_state = True
+            else:
+                in_acceptance_state = False
+
+        if not in_acceptance_state:
+            raise InvalidStringException("The string ended in no acceptance state")
+
+        return transitions
+
     def __str__(self):
         return f"Name: {self.name}\nStates: {self._states}\nAlfabet: {self._alfabet}\nInitial State: {self._initial_state}\nAcceptance States: {self._acceptance_states}"
 
@@ -121,6 +163,10 @@ class Transition:
 
 
 # Exception classes for error handling
+
+
+class InvalidStringException(Exception):
+    pass
 
 
 class NameException(Exception):

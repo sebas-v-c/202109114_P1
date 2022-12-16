@@ -1,0 +1,40 @@
+digraph G {
+
+rankdir=LR;
+A;B;C;D;
+A [peripheries=2];
+A -> B [label="1"];
+A -> C [label="0"];
+B -> A [label="1"];
+B -> D [label="0"];
+C -> D [label="1"];
+C -> A [label="0"];
+D -> C [label="1"];
+D -> B [label="0"];
+A -> B [label="1"];
+
+
+
+node [shape=circle];
+fontsize=40
+//descripcion
+NodeLabel [shape=none fontsize=18 label =
+        <
+AFD_1<br/>
+Estados: A B C D<br align="left"/>
+Alfabeto: 0 1<br align="left"/>
+Estados de Aceptación: A<br align="left"/>
+Estados Inicial: C<br align="left"/>
+Producciones:<br align="left"/>
+A, 1; B<br align="left"/>
+A, 0; C<br align="left"/>
+B, 1; A<br align="left"/>
+B, 0; D<br align="left"/>
+C, 1; D<br align="left"/>
+C, 0; A<br align="left"/>
+D, 1; C<br align="left"/>
+D, 0; B<br align="left"/>
+A, 1; B<br align="left"/>
+>
+];
+}

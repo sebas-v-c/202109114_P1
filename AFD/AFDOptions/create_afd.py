@@ -3,7 +3,7 @@
 from tkinter import *
 from tkinter import ttk
 from AFD import AFDOptions
-from AFD.afd import NameException
+from AFD import afd_window
 
 import controller
 import view
@@ -161,7 +161,7 @@ class Controller:
         self._view.set_controller(self)
 
     def return_button(self):
-        controller = Controller(self._app)
+        controller = afd_window.Controller(self._app)
 
     def reset_error_labels(self):
         self._view.afd_name_error.set("")
@@ -175,6 +175,8 @@ class Controller:
         self.reset_error_labels()
         try:
             new_afd = AFD(self._view.afd_name.get())
+            if new_afd.name in list(map(lambda x: x.name, self._app.afd_objects)):
+                raise NameExistException("Name already exist in the afd_objecst")
             new_afd.states = self._view.afd_states.get()
             new_afd.alfabet = self._view.afd_alfabet.get()
             new_afd.initial_state = self._view.afd_initial_state.get()
@@ -182,6 +184,8 @@ class Controller:
             new_afd.transitions = self._view.afd_transitions.get("1.0", END)
         except NameException:
             self._view.afd_name_error.set("El nombre es invalido")
+        except NameExistException:
+            self._view.afd_name_error.set("El nombre ya existe en el sistema")
         except StatesException:
             self._view.afd_states_error.set("Los estados estań vacios")
         except AlfabetException:
@@ -203,3 +207,7 @@ class Controller:
         else:
             self._app.afd_objects.append(new_afd)
             self._view.afd_success.set("AFD creado con éxito")
+
+
+class NameExistException(Exception):
+    pass
