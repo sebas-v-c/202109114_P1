@@ -80,6 +80,7 @@ class Controller(controller.Controller):
         controller = GR.Controller(self._app)
 
     def load_files_module(self):
+        controller = LoadFiles.Controller(self._app)
         pass
 
     def quit_program(self):

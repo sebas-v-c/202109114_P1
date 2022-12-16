@@ -1,27 +1,39 @@
 digraph G {
 rankdir=LR;
-A;B;
-B [peripheries=2];
+A;B;C;D;
+C [peripheries=2];
 INICIO [shape="triangle"]
 INICIO -> A;
-A -> A [label="0"];
 A -> B [label="1"];
-B -> B [label="0"];
+A -> C [label="0"];
 B -> A [label="1"];
+B -> D [label="0"];
+C -> D [label="1"];
+C -> A [label="0"];
+D -> C [label="1"];
+D -> B [label="0"];
+A -> B [label="1"];
+A -> B [label="1"];
 node [shape=circle];
 fontsize=40
 NodeLabel [shape=none fontsize=18 label = <
-Nombre: afddddd<br/>
-Estados: A B<br align="left"/>
+Nombre: AFD_2<br/>
+Estados: A B C D<br align="left"/>
 Alfabeto: 0 1<br align="left"/>
-Estados de aceptación: B<br align="left"/>
-Estado inicialA<br align="left"/>
-Transiciones <br align="left"/>
-A, 0; A<br align="left"/>
+Estados de aceptación: C<br align="left"/>
+Estado inicial: A<br align="left"/>
+Transiciones: <br align="left"/>
 A, 1; B<br align="left"/>
-B, 0; B<br align="left"/>
+A, 0; C<br align="left"/>
 B, 1; A<br align="left"/>
+B, 0; D<br align="left"/>
+C, 1; D<br align="left"/>
+C, 0; A<br align="left"/>
+D, 1; C<br align="left"/>
+D, 0; B<br align="left"/>
+A, 1; B<br align="left"/>
+A, 1; B<br align="left"/>
  <br align="left"/>
-Cadena válida de ejemplo: 01<br align="left"/>
+Cadena válida de ejemplo: 110<br align="left"/>
 >];
 }

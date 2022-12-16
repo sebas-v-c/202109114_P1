@@ -21,6 +21,7 @@ class View(ttk.Frame):
         title_label.grid(row=1, column=2)
 
         # -----------------------------------Information-------------------------------#
+        # TODO descripcion afd
         info_label = ttk.Label(self, text="Descripcion chida")
         info_label.grid(row=2, column=1, columnspan=2)
 

@@ -2,11 +2,7 @@
 
 from tkinter import *
 from tkinter import ttk
-from AFD import AFDOptions
 from AFD import afd_window
-
-import controller
-import view
 
 from AFD.afd import *
 
