@@ -21,8 +21,14 @@ class View(ttk.Frame):
         title_label.grid(row=1, column=2)
 
         # -----------------------------------Information-------------------------------#
-        # TODO descripcion afd
-        info_label = ttk.Label(self, text="Descripcion chida")
+        info_label = ttk.Label(
+            self,
+            text="""
+        Es una máquina de estados finita que acepta o rechaza una cadena con símbolos.
+        Consta de un alfabeto limitado, un número de estados límitado, y las
+        transiciones solo se pueden llevar a cabo si no van a diferentes estados con un
+        mismo item del alfabeto""",
+        )
         info_label.grid(row=2, column=1, columnspan=2)
 
         # -----------------------------------Image-------------------------------#

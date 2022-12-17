@@ -5,6 +5,7 @@ from tkinter.filedialog import askopenfile
 
 import InitialWindow
 from AFD import AFD
+from GR import GR
 
 
 class View(ttk.Frame):
@@ -162,7 +163,49 @@ class Controller:
         self._view.label_error.set("Archivo cargado con éxito")
 
     def _load_gr_file(self):
-        pass
+        if self.file is None:
+            return
+
+        lines: list[str] = self.file.readlines()
+        # strip out the new line character
+        lines = list(map(lambda x: x.strip("\n"), lines))
+
+        new_gr_list = []
+        line_num = 0
+        gr_productions: list[str] = []
+        new_gr: GR
+        file_lines = len(lines)
+
+        for line in range(len(lines)):
+            if line_num == 0:
+                new_gr = GR(lines[line])
+
+            if lines[line][0] == "%":
+                line_num = 0
+                new_gr.productions = ";".join(gr_productions)
+                new_gr_list.append(new_gr)
+                gr_productions = []
+                continue
+
+            # fill afd parameters
+            if line_num == 1:
+                new_gr.no_terminals = lines[line].replace(",", ";")
+            elif line_num == 2:
+                new_gr.terminals = lines[line].replace(",", ";")
+            elif line_num == 3:
+                new_gr.initial_no_terminal = lines[line]
+            elif line_num >= 4:
+                gr_productions.append(lines[line])
+
+            if line == file_lines - 1:
+                gr_productions.append(lines[line])
+                new_gr.productions = ";".join(gr_productions)
+                new_gr_list.append(new_gr)
+
+            line_num += 1
+
+        self._app.gr_objects = self._app.gr_objects + new_gr_list
+        self._view.label_error.set("Archivo cargado con éxito")
 
     def search_file(self):
         file = askopenfile(

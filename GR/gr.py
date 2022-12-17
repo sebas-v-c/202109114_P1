@@ -163,7 +163,6 @@ class GR:
         # verify if acceptance no terminals are correct
         self.acceptance_no_terminals = ";".join(self._acceptance_no_terminals)
 
-        # TODO verify if this thing really is an afd
         self._transitions = new_transitions_list
 
     @property

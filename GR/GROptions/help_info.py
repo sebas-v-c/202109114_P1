@@ -21,8 +21,13 @@ class View(ttk.Frame):
         title_label.grid(row=1, column=2)
 
         # -----------------------------------Information-------------------------------#
-        # TODO descripcion gr
-        info_label = ttk.Label(self, text="Descripcion chida")
+        info_label = ttk.Label(
+            self,
+            text=""""
+        Una gramática regular tiene una función similar a un AFD y solamente pueden
+        generar lenguajes regulares.
+        """,
+        )
         info_label.grid(row=2, column=1, columnspan=2)
 
         # -----------------------------------Image-------------------------------#

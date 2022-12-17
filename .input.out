@@ -1,23 +1,37 @@
 digraph G {
 rankdir=LR;
-A;B;
-B [peripheries=2];
+A;B;C;D;
+C [peripheries=2];
 INICIO [shape="triangle"]
 INICIO -> A;
-A -> A [label="0"];
-A -> B [label="1"];
+A -> B [label="0"];
+A -> C [label="1"];
+B -> A [label="0"];
+B -> D [label="1"];
+C -> D [label="0"];
+C -> A [label="1"];
+D -> C [label="0"];
+D -> B [label="1"];
+D -> B [label="1"];
 node [shape=circle];
 fontsize=40
 NodeLabel [shape=none fontsize=18 label = <
-Nombre: gr3<br/>
-No Terminales: A B<br align="left"/>
+Nombre: G_2<br/>
+No Terminales: A B C D<br align="left"/>
 Terminales: 0 1<br align="left"/>
 No terminal inicial: A<br align="left"/>
 Producciones: <br align="left"/>
-A &gt; 0  A<br align="left"/>
+A &gt; 0  B<br align="left"/>
+  | 1 C<br align="left"/>
+B &gt; 0  A<br align="left"/>
+  | 1 D<br align="left"/>
+C &gt; 0  D<br align="left"/>
+  | 1 A<br align="left"/>
+  | $<br align="left"/>
+D &gt; 0  C<br align="left"/>
   | 1 B<br align="left"/>
-B &gt; $
+  | 1 B<br align="left"/>
  <br align="left"/>
-Cadena válida de ejemplo: 01<br align="left"/>
+Cadena válida de ejemplo: 001<br align="left"/>
 >];
 }
